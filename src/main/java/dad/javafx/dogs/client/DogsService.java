@@ -59,17 +59,17 @@ public class DogsService {
 	}
 	
 	public URL randomImage() throws DogsServiceException {
-		// TODO 
+		// TODO devolver una imagen aleatoria de cualquier raza
 		return null;
 	}
 	
 	public List<URL> imagesByBreed(String breed) throws DogsServiceException {
-		// TODO 
+		// TODO devolver todas las imágenes de la raza
 		return null;
 	}
 	
-	public List<String> subBreeds() throws DogsServiceException {
-		// TODO 
+	public List<String> subBreeds(String breed) throws DogsServiceException {
+		// TODO devolver lista de subrazas 
 		return null;		
 	}
 	
