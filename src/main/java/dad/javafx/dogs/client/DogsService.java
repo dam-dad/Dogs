@@ -3,7 +3,6 @@ package dad.javafx.dogs.client;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -95,14 +94,7 @@ public class DogsService {
 				throw new DogsServiceException("Error retrieving " + breed + " images list");
 			}
 			
-			return breeds.getMessage().stream().map(url -> {
-					try {
-						return new URL(url);
-					} catch (MalformedURLException e) {
-						e.printStackTrace();
-					}
-					return null;
-				}).collect(Collectors.toList());
+			return breeds.getMessage();
 
 		} catch (Exception e) {
 			throw new DogsServiceException(e);
@@ -118,7 +110,7 @@ public class DogsService {
 					.asObject(BreedsMessage.class)
 					.getBody();
 			
-			if (!breeds.getStatus().equals("success")) {
+			if (!breeds.isSuccess()) {
 				throw new DogsServiceException("Error retrieving " + breed + " sub-breeds list");
 			}
 			
