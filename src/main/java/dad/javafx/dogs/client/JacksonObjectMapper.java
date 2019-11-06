@@ -7,7 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class UnirestObjectMapper implements com.mashape.unirest.http.ObjectMapper {
+public class JacksonObjectMapper implements com.mashape.unirest.http.ObjectMapper {
 
 	private ObjectMapper mapper = new ObjectMapper();
 	
