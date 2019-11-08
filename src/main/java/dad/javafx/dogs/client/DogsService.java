@@ -9,11 +9,12 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 
 import dad.javafx.dogs.client.messages.BreedsMessage;
 import dad.javafx.dogs.client.messages.ImageMessage;
+import dad.javafx.dogs.client.messages.ImagesMessage;
 
 public class DogsService {
 	
 	public DogsService() {
-		Unirest.setObjectMapper(new UnirestObjectMapper());
+		Unirest.setObjectMapper(new JacksonObjectMapper());
 	}
 	
 	public List<String> listBreeds() throws DogsServiceException {
@@ -25,7 +26,7 @@ public class DogsService {
 					.asObject(BreedsMessage.class)
 					.getBody();
 			
-			if (!breeds.getStatus().equals("success")) {
+			if (!breeds.isSuccess()) {
 				throw new DogsServiceException("Error retrieving breeds list");
 			}
 			
@@ -59,24 +60,65 @@ public class DogsService {
 	}
 	
 	public URL randomImage() throws DogsServiceException {
-		// TODO devolver una imagen aleatoria de cualquier raza
-		return null;
+		try {
+			
+			ImageMessage image = 
+				Unirest
+					.get("https://dog.ceo/api/breeds/image/random")
+					.asObject(ImageMessage.class)
+					.getBody();
+			
+			if (!image.isSuccess()) {
+				throw new DogsServiceException("Error retrieving random image");
+			}
+			
+			return new URL(image.getMessage());
+
+		} catch (UnirestException | MalformedURLException e) {
+			
+			throw new DogsServiceException(e);
+			
+		}
 	}
 	
 	public List<URL> imagesByBreed(String breed) throws DogsServiceException {
-		// TODO devolver todas las imágenes de la raza
-		return null;
+		try {
+			
+			ImagesMessage breeds = 
+				Unirest
+					.get("https://dog.ceo/api/breed/" + breed + "/images")
+					.asObject(ImagesMessage.class)
+					.getBody();
+			
+			if (!breeds.isSuccess()) {
+				throw new DogsServiceException("Error retrieving " + breed + " images list");
+			}
+			
+			return breeds.getMessage();
+
+		} catch (Exception e) {
+			throw new DogsServiceException(e);
+		}
 	}
 	
 	public List<String> subBreeds(String breed) throws DogsServiceException {
-		// TODO devolver lista de subrazas 
-		return null;		
-	}
-	
-	public static void main(String[] args) throws DogsServiceException {
-		DogsService service = new DogsService();
-		System.out.println(service.listBreeds());
-		System.out.println(service.randomImageByBreed("akita"));
+		try {
+			
+			BreedsMessage breeds = 
+				Unirest
+					.get("https://dog.ceo/api/breed/" + breed + "/list")
+					.asObject(BreedsMessage.class)
+					.getBody();
+			
+			if (!breeds.isSuccess()) {
+				throw new DogsServiceException("Error retrieving " + breed + " sub-breeds list");
+			}
+			
+			return breeds.getMessage();
+
+		} catch (UnirestException e) {
+			throw new DogsServiceException(e);
+		}		
 	}
 
 }
