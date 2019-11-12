@@ -23,6 +23,10 @@
             </Button>
          </children>
       </HBox>
-      <ImageView fx:id="dogImageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+      <VBox alignment="CENTER" maxHeight="200.0" maxWidth="200.0" prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <ImageView fx:id="dogImageView" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </VBox>
    </children>
 </VBox>
