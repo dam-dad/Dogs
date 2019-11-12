@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="view" alignment="CENTER" fillWidth="false" prefHeight="200.0" prefWidth="320.0" spacing="5.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+   <children>
+      <HBox alignment="CENTER" spacing="5.0">
+         <children>
+            <ComboBox fx:id="breedsCombo" promptText="Elige una raza de perro" />
+            <Button fx:id="reloadButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#onReloadAction" text="Recargar">
+               <graphic>
+                  <FontAwesomeIconView glyphName="REFRESH" />
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+      <ImageView fx:id="dogImageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
+</VBox>
