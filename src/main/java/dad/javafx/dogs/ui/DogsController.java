@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import dad.javafx.dogs.client.DogsService;
+import dad.javafx.dogs.client.DogsServiceException;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -14,7 +15,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -74,20 +74,13 @@ public class DogsController implements Initializable {
     	
 	}
 
-	@SuppressWarnings("unchecked")
 	private void onViewShowed() {
-		Task<List<String>> task = new Task<>() {
-			protected List<String> call() throws Exception {
-				return service.listBreeds();
-			}
-		};
-		task.setOnSucceeded(e -> {
-			breeds.addAll((List<String>) e.getSource().getValue());
-		});
-		task.setOnFailed(e -> {
-			DogsApp.error("No se pudo cargar la lista de razas de perro", e.getSource().getException());
-		});
-		new Thread(task).start();
+		try {
+			List<String> allBreeds = service.listBreeds();
+			breeds.addAll(allBreeds);
+		} catch (DogsServiceException e) {
+			DogsApp.error("No se pudo cargar la lista de razas de perro", e);
+		}
     }
 
 	public VBox getView() {
@@ -104,18 +97,12 @@ public class DogsController implements Initializable {
     }
 
 	private void loadBreedImage(String breed) {
-		Task<URL> task = new Task<>() {
-			protected URL call() throws Exception {
-				return service.randomImageByBreed(breed);
-			};
-		};
-		task.setOnSucceeded(e -> {
-			dogImage.set(new Image(e.getSource().getValue().toString()));
-		});
-		task.setOnFailed(e -> {
-			DogsApp.error("No se pudo obtener imagen aleatoria de la raza " + breed, e.getSource().getException());
-		});
-		new Thread(task).start();
+		try {
+			URL imageUrl = service.randomImageByBreed(breed);
+			dogImage.set(new Image(imageUrl.toString()));
+		} catch (DogsServiceException e) {
+			DogsApp.error("No se pudo obtener imagen aleatoria de la raza " + breed, e);
+		}
 	}
 
 }
