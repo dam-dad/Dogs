@@ -70,6 +70,10 @@
 							<mainClass>${exec.mainClass}</mainClass>
 							<bundleJre>true</bundleJre>
 							<generateInstaller>false</generateInstaller>
+							<additionalModules>
+								<!-- fix handshake_failure with custom runtime -->
+								<additionalModule>jdk.crypto.ec</additionalModule>
+							</additionalModules>
 						</configuration>
 					</execution>
 				</executions>
