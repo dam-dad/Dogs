@@ -9,8 +9,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import dad.javafx.dogs.client.DogsService;
-import dad.javafx.dogs.client.DogsServiceException;
+import dad.dogs.api.DogsService;
+
 
 public class DogsServiceTestCase {
 	
@@ -22,51 +22,29 @@ public class DogsServiceTestCase {
 	}
 
 	@Test
-	public void listBreedsTest() throws DogsServiceException {
-		List<String> breeds = service.listBreeds();
+	public void listBreedsTest() throws Exception {
+		List<String> breeds = service.breedsList();
 		assertTrue(breeds.contains("hound"));
 	}
 	
 	@Test
-	public void randomImageByBreedTest() throws DogsServiceException {
-		URL image = service.randomImageByBreed("akita");
+	public void randomBreedImageTest() throws Exception {
+		URL image = service.randomBreedImage("akita");
 		assertNotNull(image);
 	}
 	
 	@Test
-	public void randomImageTest() throws DogsServiceException {
-		URL image = service.randomImage();
+	public void randomImageTest() throws Exception {
+		URL image = service.randomBreedImage();
 		assertNotNull(image);
 	}
 	
 	@Test
-	public void imagesByBreedTest() throws DogsServiceException {
-		List<URL> images = service.imagesByBreed("akita");
-		assertTrue(!images.isEmpty());
-	}
-	
-	@Test
-	public void subBreedTest() throws DogsServiceException {
-		List<String> subbreeds = service.subBreeds("hound");
-		assertTrue(subbreeds.contains("afghan"));
-	}
-	
-	@Test
-	public void randomImageByBreedFailTest() {
+	public void randomBreedImageFailTest() {
 		try {
-			service.randomImageByBreed("no-dog");
+			service.randomBreedImage("no-dog");
 			assertTrue(false);
-		} catch (DogsServiceException e) {
-			assertTrue(true);
-		}
-	}
-	
-	@Test
-	public void imagesByBreedFailTest() {
-		try {
-			service.imagesByBreed("no-dog");
-			assertTrue(false);
-		} catch (DogsServiceException e) {
+		} catch (Exception e) {
 			assertTrue(true);
 		}
 	}
